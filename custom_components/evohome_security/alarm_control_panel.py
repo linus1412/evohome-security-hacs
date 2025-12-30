@@ -8,12 +8,8 @@ from homeassistant.components.alarm_control_panel import (
     AlarmControlPanelEntity,
     AlarmControlPanelEntityFeature,
 )
+from homeassistant.components.alarm_control_panel.const import AlarmControlPanelState
 from homeassistant.config_entries import ConfigEntry
-from homeassistant.const import (
-    STATE_ALARM_ARMED_AWAY,
-    STATE_ALARM_ARMED_HOME,
-    STATE_ALARM_DISARMED,
-)
 from homeassistant.core import HomeAssistant
 from homeassistant.helpers.device_registry import DeviceInfo
 from homeassistant.helpers.entity_platform import AddEntitiesCallback
@@ -50,7 +46,6 @@ class EvohomeSecurityPanel(
     _attr_supported_features = (
         AlarmControlPanelEntityFeature.ARM_AWAY
         | AlarmControlPanelEntityFeature.ARM_HOME
-        | AlarmControlPanelEntityFeature.DISARM
     )
 
     def __init__(
@@ -70,18 +65,18 @@ class EvohomeSecurityPanel(
         )
 
     @property
-    def state(self) -> str | None:
+    def state(self) -> AlarmControlPanelState | None:
         """Return the state of the alarm panel."""
         if not self.coordinator.data:
             return None
 
         status = self.coordinator.data.get("status")
         if status == ArmStatus.ARMED_AWAY:
-            return STATE_ALARM_ARMED_AWAY
+            return AlarmControlPanelState.ARMED_AWAY
         if status == ArmStatus.ARMED_HOME:
-            return STATE_ALARM_ARMED_HOME
+            return AlarmControlPanelState.ARMED_HOME
         if status == ArmStatus.DISARMED:
-            return STATE_ALARM_DISARMED
+            return AlarmControlPanelState.DISARMED
 
         return None
 
