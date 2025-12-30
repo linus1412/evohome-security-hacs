@@ -145,10 +145,7 @@ class EvohomeSecurityClient:
                 _LOGGER.debug("Validation response body: %r", response_text)
 
                 if not response_text.startswith("#"):
-                    msg = (
-                        "Authentication failed: unexpected response: "
-                        f"{response_text}"
-                    )
+                    msg = f"Authentication failed: unexpected response: {response_text}"
                     raise AuthenticationError(msg)
 
                 _LOGGER.debug("Cookies after validation:")
@@ -293,7 +290,7 @@ class EvohomeSecurityClient:
             r'"homeSessionId":\s*"([^"]+)"',
             r"homeSessionId='([^']+)'",
             r'homeSessionId="([^"]+)"',
-                r'data-home-session-id="([^"]+)"',
+            r'data-home-session-id="([^"]+)"',
             r"data-home-session-id='([^']+)'",
             r"<input[^>]*name=['\"]homeSessionId['\"][^>]*value=['\"]([^'\"]+)['\"]",
         ]

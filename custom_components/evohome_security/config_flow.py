@@ -5,14 +5,15 @@ from __future__ import annotations
 import logging
 from typing import Any
 
-from evohome_security_async import EvohomeSecurityClient
-from evohome_security_async.exceptions import AuthenticationError
 import voluptuous as vol
 
-from homeassistant.config_entries import ConfigFlow, ConfigFlowResult
+from homeassistant import config_entries
 from homeassistant.const import CONF_PASSWORD, CONF_USERNAME
+from homeassistant.data_entry_flow import FlowResult
 
 from .const import CONF_BASE_URL, DEFAULT_BASE_URL, DOMAIN
+from .evohome_security_async import EvohomeSecurityClient
+from .evohome_security_async.exceptions import AuthenticationError
 
 _LOGGER = logging.getLogger(__name__)
 
@@ -25,7 +26,7 @@ STEP_USER_DATA_SCHEMA = vol.Schema(
 )
 
 
-class EvohomeSecurityConfigFlow(ConfigFlow, domain=DOMAIN):
+class EvohomeSecurityConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
     """Handle a config flow for Honeywell Evohome Security."""
 
     VERSION = 1
@@ -33,7 +34,7 @@ class EvohomeSecurityConfigFlow(ConfigFlow, domain=DOMAIN):
 
     async def async_step_user(
         self, user_input: dict[str, Any] | None = None
-    ) -> ConfigFlowResult:
+    ) -> FlowResult:
         """Handle the initial step."""
         errors: dict[str, str] = {}
 
