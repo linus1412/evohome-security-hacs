@@ -33,7 +33,9 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
         await coordinator.async_config_entry_first_refresh()
     except Exception as err:
         _LOGGER.error("Error connecting to Evohome Security: %s", err)
-        raise ConfigEntryNotReady(f"Unable to connect to Evohome Security: {err}") from err
+        raise ConfigEntryNotReady(
+            f"Unable to connect to Evohome Security: {err}"
+        ) from err
 
     hass.data[DOMAIN][entry.entry_id] = coordinator
 
